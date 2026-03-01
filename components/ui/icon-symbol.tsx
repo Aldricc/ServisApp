@@ -18,6 +18,19 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'chevron.left': 'chevron-left',
+  'list.bullet': 'list',
+  'trash.fill': 'delete',
+  'building.columns': 'apartment', // changed to 'apartment' for building
+  'person.crop.circle': 'account-circle',
+  'calendar': 'calendar-today',
+  'laptopcomputer': 'laptop',
+  'mappin.and.ellipse': 'location-on',
+  'chevron.down': 'keyboard-arrow-down',
+  'checkmark.circle.fill': 'check-circle',
+  'clock.fill': 'schedule',
+  'plus': 'add',
+  'wrench.and.screwdriver.fill': 'build',
 } as IconMapping;
 
 /**

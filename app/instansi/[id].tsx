@@ -12,13 +12,17 @@ import {
     Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { getServiceData, deleteServiceItem, updateServiceItem, ServiceItem } from '../../utils/storage';
+import { exportInstansiToCsv } from '../../utils/export';
 import { formatShortDate } from '../../utils/formatDate';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
-export default function ServiceListScreen() {
+export default function InstansiDetailScreen() {
     const router = useRouter();
+    const { id } = useLocalSearchParams(); // This represents the instansi name
+    const instansiName = Array.isArray(id) ? id[0] : id;
+
     const [services, setServices] = useState<ServiceItem[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -28,21 +32,22 @@ export default function ServiceListScreen() {
 
     const loadData = async () => {
         const storedData = await getServiceData();
-        // Sort slightly to put newer entries first (assuming they are appended to end)
-        setServices(storedData.reverse());
+        // Filter specific to this instansi
+        const instansiServices = storedData.filter(s => s.instansi === instansiName);
+        setServices(instansiServices.reverse());
     };
 
     useFocusEffect(
         useCallback(() => {
             loadData();
-        }, [])
+        }, [instansiName])
     );
 
-    const handleDelete = (id: string) => {
+    const handleDelete = (serviceId: string) => {
         if (Platform.OS === 'web') {
             const confirmed = window.confirm('Apakah Anda yakin ingin menghapus data service ini?');
             if (confirmed) {
-                deleteServiceItem(id).then(success => {
+                deleteServiceItem(serviceId).then(success => {
                     if (success) {
                         loadData();
                     } else {
@@ -57,7 +62,7 @@ export default function ServiceListScreen() {
                     text: 'Hapus',
                     style: 'destructive',
                     onPress: async () => {
-                        const success = await deleteServiceItem(id);
+                        const success = await deleteServiceItem(serviceId);
                         if (success) {
                             loadData();
                         } else {
@@ -105,19 +110,23 @@ export default function ServiceListScreen() {
         }
     };
 
+    const handleExport = async () => {
+        const result = await exportInstansiToCsv(instansiName, services);
+        if (!result.success && result.message) {
+            Alert.alert('Informasi Ekspor', result.message);
+        }
+    };
+
     // derived stats
     const activeCount = services.filter(s => !s.tanggalKeluar).length;
     const doneCount = services.filter(s => s.tanggalKeluar).length;
-    // Tertunda adalah servis yang belum selesai dan sudah lewat 3 hari sejak didaftarkan
     const pendingCount = services.filter(s => !s.tanggalKeluar && (Date.now() - s.createdAt) > 3 * 24 * 60 * 60 * 1000).length;
 
     const filteredServices = services.filter(s =>
-        s.namaBarang.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.instansi.toLowerCase().includes(searchQuery.toLowerCase())
+        s.namaBarang.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const getStatusInfo = (item: ServiceItem) => {
-        // Basic heuristics for status based on available fields since 'status' isn't natively saved yet
         if (item.tanggalKeluar) {
             return { label: 'Selesai', color: '#10B981', bgColor: '#D1FAE5' }; // Green
         }
@@ -129,7 +138,7 @@ export default function ServiceListScreen() {
         return (
             <TouchableOpacity style={styles.card} onPress={() => openEditModal(item)} activeOpacity={0.7}>
                 <View style={styles.cardHeader}>
-                    <Text style={styles.cardInstansi}>Instansi: {item.instansi}</Text>
+                    <Text style={styles.cardInstansi}>ID Servis: {item.id.substring(0, 8)}...</Text>
                     <TouchableOpacity onPress={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={styles.deleteBtn}>
                         <IconSymbol name="trash.fill" size={16} color="#EF4444" />
                     </TouchableOpacity>
@@ -155,7 +164,14 @@ export default function ServiceListScreen() {
         <SafeAreaView style={styles.container} edges={['top']}>
             {/* Header Baru */}
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>FlashCom</Text>
+                <TouchableOpacity onPress={() => { if (router.canGoBack()) { router.back() } else { router.push('/') } }}>
+                    <IconSymbol name="chevron.left" size={24} color="#8E8E93" />
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>{instansiName}</Text>
+
+                <TouchableOpacity onPress={handleExport} style={styles.exportBtn}>
+                    <IconSymbol name="square.and.arrow.up" size={20} color="#007AFF" />
+                </TouchableOpacity>
             </View>
 
             {/* Summary Cards */}
@@ -197,11 +213,10 @@ export default function ServiceListScreen() {
             {/* Search and Filter */}
             <View style={styles.searchFilterContainer}>
                 <View style={styles.searchBar}>
-                    {/* We'll just use a generic search icon instead, mapping "search" is missing so we'll just style it */}
                     <Text style={{ color: '#9CA3AF', paddingHorizontal: 4 }}>🔍</Text>
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Search..."
+                        placeholder="Search barang..."
                         placeholderTextColor="#9CA3AF"
                         value={searchQuery}
                         onChangeText={setSearchQuery}
@@ -221,7 +236,7 @@ export default function ServiceListScreen() {
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>Tidak ada data servis.</Text>
+                        <Text style={styles.emptyText}>Tidak ada data servis untuk instansi ini.</Text>
                     </View>
                 }
             />
@@ -254,7 +269,6 @@ export default function ServiceListScreen() {
                                     {selectedService.tanggalKeluar && (
                                         <Text style={styles.modalLabel}>Tanggal Selesai: {formatShortDate(selectedService.tanggalKeluar)}</Text>
                                     )}
-
                                     <Text style={[styles.modalLabel, { marginTop: 12 }]}>Keterangan Perbaikan:</Text>
                                     <TextInput
                                         style={styles.textArea}
@@ -284,10 +298,10 @@ export default function ServiceListScreen() {
                 </KeyboardAvoidingView>
             </Modal>
 
-            {/* FAB */}
+            {/* FAB to add specifically for this instansi */}
             <TouchableOpacity
                 style={styles.fab}
-                onPress={() => router.push('/add')}
+                onPress={() => router.push(`/add?instansi=${encodeURIComponent(instansiName as string)}`)}
             >
                 <IconSymbol name="plus" size={32} color="#FFFFFF" />
             </TouchableOpacity>
@@ -312,6 +326,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         color: '#111827',
+        flex: 1,
+        textAlign: 'center',
+    },
+    exportBtn: {
+        padding: 4,
     },
     summaryContainer: {
         flexDirection: 'row',
@@ -421,8 +440,8 @@ const styles = StyleSheet.create({
         marginBottom: 6,
     },
     cardInstansi: {
-        fontSize: 16,
-        color: '#374151',
+        fontSize: 14,
+        color: '#6B7280',
         fontWeight: '500',
         flex: 1,
     },
@@ -432,7 +451,7 @@ const styles = StyleSheet.create({
     cardBarang: {
         fontSize: 16,
         color: '#111827',
-        fontWeight: '500',
+        fontWeight: '600',
         marginBottom: 12,
     },
     cardFooter: {
@@ -445,8 +464,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     statusLabelText: {
-        fontSize: 15,
-        color: '#374151',
+        fontSize: 14,
+        color: '#4B5563',
     },
     statusBadge: {
         paddingHorizontal: 10,
@@ -460,8 +479,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     cardDate: {
-        fontSize: 14,
-        color: '#374151',
+        fontSize: 13,
+        color: '#6B7280',
     },
     emptyContainer: {
         padding: 32,
@@ -475,7 +494,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 24, // adjust if bottom tab bar overlaps
         right: 24,
-        backgroundColor: '#007AFF',
+        backgroundColor: '#007AFF', // Match Add button
         width: 60,
         height: 60,
         borderRadius: 30,
