@@ -23,11 +23,11 @@
 Aplikasi ini dapat dioperasikan secara **Luring (Offline First)** menggunakan penyimpanan perangkat, namun juga mendukung **Sinkronisasi Langsung ke Google Sheets** agar data dapat secara simultan dikelola oleh staf lain melalui komputer Desktop.
 
 <div align="center">
-  <img src="./assets/images/screenshot-dashboard.png" width="220" alt="Dashboard Utama"/>
+  <img src="./assets/images/IMG_2916.jpgApp 2025-11-27 pukul 15.38.12_13d17c7b.jpg" width="220" alt="Dashboard Utama"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/screenshot-detail.png" width="220" alt="Detail Servis"/>
+  <img src="./assets/images/279144369_372861218080277_334533033501306385_n.jpg" width="220" alt="Detail Servis"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/screenshot-instansi.png" width="220" alt="Daftar Instansi"/>
+  <img src="./assets/images/224686601_4103267969793496_6360119210292331170_n.jpg" width="220" alt="Daftar Instansi"/>
   <br/>
   *(Tangkapan Layar Aplikasi)*
 </div>
