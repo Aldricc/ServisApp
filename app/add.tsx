@@ -1,20 +1,20 @@
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { useFocusEffect, useRouter, useLocalSearchParams } from 'expo-router';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { saveServiceData, getInstansis } from '../utils/storage';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import { getInstansis, saveServiceData } from '../utils/storage';
 
 export default function ServiceFormScreen() {
   const router = useRouter();
@@ -46,11 +46,10 @@ export default function ServiceFormScreen() {
 
   const formatDate = (date: Date | null) => {
     if (!date) return '';
-    return date.toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   const handleMasukChange = (event: any, selectedDate?: Date) => {

@@ -19,24 +19,29 @@
 Aplikasi ini dapat dioperasikan secara **Luring (Offline First)** menggunakan penyimpanan perangkat, namun juga mendukung **Sinkronisasi Langsung ke Google Sheets** agar data dapat secara simultan dikelola oleh staf lain melalui komputer Desktop.
 
 <div align="center">
-  *(Tangkapan Layar)*<br/>
-  Dashboard Utama &nbsp;&nbsp;|&nbsp;&nbsp; Detail Servis &nbsp;&nbsp;|&nbsp;&nbsp; Daftar Instansi
+  <img src="./assets/images/screenshot-dashboard.png" width="220" alt="Dashboard Utama"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./assets/images/screenshot-detail.png" width="220" alt="Detail Servis"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./assets/images/screenshot-instansi.png" width="220" alt="Daftar Instansi"/>
+  <br/>
+  *(Tangkapan Layar Aplikasi)*
 </div>
 
 ## ✨ Fitur Utama
 1. **Pencatatan Cepat Lintas Instansi** - Mendata perangkat baru dalam hitungan detik (Tipe Barang, Tanggal Masuk, Ruangan, Keterangan).
 2. **Dashboard & Ringkasan Cerdas** - Antarmuka modern yang menampilkan hitungan *badges* servis: Masuk, Selesai, dan Tertunda.
 3. **Penyimpanan Lokal Persisten** - Tidak perlu koneksi internet untuk mengelola pencatatan harian berkat `AsyncStorage`.
-4. **Google Sheets API Sync (Dua Arah)** - Sekali klik, cadangkan semua data lokal ke *Google Drive* kamu atau unduh perubahan tabel (Pull-down) secara *Real-Time*.
-5. **Konversi Cetak (.CSV)** - Ubah rekapitulasi data satu Instansi menjadi laporan `.csv` (*Excel*) lalu bagikan lewat WhatsApp atau Email langsung dari ponsel.
+4. **Google Sheets API Sync (Otomatis & Real-Time)** - Sekali atur, aplikasi akan menyinkronkan data lokal ke *Google Drive* kamu atau menarik pembaruan tabel secara otomatis di latar belakang.
+5. **Ekspor Laporan (PDF & Excel)** - Ubah rekapitulasi data Instansi menjadi laporan `.pdf` yang rapi atau `.xlsx` (*Excel*) berformat tabel profesional, lalu bagikan lewat WhatsApp atau Email langsung dari ponsel.
 
 ## 🛠️ Tech Stack
 - **Framework Utama:** [React Native](https://reactnative.dev/) (dengan ekosistem [Expo](https://expo.dev/))
 - **Bahasa:** TypeScript / JavaScript
 - **Penyimpanan Lokal:** `@react-native-async-storage/async-storage`
 - **Routing:** Expo Router (File-based routing)
-- **Ekspor Berkas:** `expo-file-system`, `expo-sharing`
-- **Tampilan CSS:** Stylesheet murni bergaya modern-minimalis (Mirip *Tailwind/Glassmorphism*).
+- **Ekspor Berkas:** `expo-print` (PDF), `xlsx` (Excel), `expo-file-system`, `expo-sharing`
+- **Tampilan CSS:** Stylesheet murni bergaya modern-minimalis.
 
 ## 🚀 Cara Mulai (Development)
 

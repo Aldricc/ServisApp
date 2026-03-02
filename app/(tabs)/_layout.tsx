@@ -1,14 +1,25 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useSheetsAutoSync } from '@/hooks/useSheetsAutoSync';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const tintColor = '#007AFF'; // Standard iOS Blue
+  const tintColor = '#007AFF';
+  const insets = useSafeAreaInsets();
+
+  // Auto sync: polling 10 detik + sync saat app resume
+  useSheetsAutoSync();
+
+
+  // Hardcode tab bar height Android agar tidak tertutup system navigation bar
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 100;
+  const tabBarPaddingBottom = Platform.OS === 'ios' ? 28 : 48;
 
   return (
     <Tabs
@@ -17,7 +28,14 @@ export default function TabLayout() {
         tabBarInactiveTintColor: '#8E8E93',
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 1,
+          borderTopColor: '#E5E7EB',
+          height: tabBarHeight,
+          paddingBottom: tabBarPaddingBottom,
+          paddingTop: 10,
+        },
         tabBarItemStyle: styles.tabBarItem,
         tabBarLabelStyle: styles.tabBarLabel,
       }}>
@@ -53,14 +71,6 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#FFFFFF',
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
-    height: Platform.OS === 'ios' ? 88 : 64,
-    paddingBottom: Platform.OS === 'ios' ? 28 : 10,
-    paddingTop: 10,
-  },
   tabBarItem: {
     paddingVertical: 4,
   },

@@ -6,13 +6,21 @@ export const formatShortDate = (dateString: string): string => {
             return dateString; // Return original if not a valid date
         }
 
-        // Format to something like "12 Mar 2026"
-        return date.toLocaleDateString('id-ID', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
+        // Format to DD/MM/YYYY
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
     } catch (error) {
         return dateString;
     }
+};
+
+// Format saat menyimpan tanggal ke storage — DD/MM/YYYY
+export const formatDateForStorage = (): string => {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    return `${day}/${month}/${year}`;
 };
