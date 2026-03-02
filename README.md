@@ -9,6 +9,10 @@
     <img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
     <img src="https://img.shields.io/badge/Google_Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white" alt="Google Sheets" />
   </p>
+  <p>
+    <img src="https://img.shields.io/badge/Status-Active-success.svg?style=flat-square" alt="Status" />
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License" />
+  </p>
 </div>
 
 ---
@@ -87,4 +91,12 @@ Aplikasi membaca parameter `keteranganPerbaikan` dkk untuk dikirimkan secara fet
 6. Masukkan URL tersebut ke tab **Pengaturan** di Aplikasi Flashcom ini! Siap disinkronkan.
 
 ---
-> Dibuat dengan cinta untuk mempermudah produktivitas teknisi IT 🎧💻
+
+## 📜 Lisensi
+Proyek ini dilisensikan di bawah **MIT License**. Jangan ragu untuk me- *fork* dan mengembangkan aplikasinya lebih lanjut!
+
+---
+
+<div align="center">
+  Dibuat dengan ❤️ untuk mempermudah produktivitas Teknisi IT 🎧💻
+</div>
