@@ -1,106 +1,62 @@
-<div align="center">
-  <img src="./assets/images/icon.png" alt="Flashcom Logo" width="120">
-  <h1>⚡ Flashcom - Service Management App</h1>
-  <p>Aplikasi Modern Pencatatan & Monitoring Servis Perangkat IT untuk Instansi</p>
+# Flashcom
 
-  <!-- Badges -->
-  <p>
-    <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native" />
-    <img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
-    <img src="https://img.shields.io/badge/Google_Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white" alt="Google Sheets" />
-  </p>
-  <p>
-    <img src="https://img.shields.io/badge/Status-Active-success.svg?style=flat-square" alt="Status" />
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License" />
-  </p>
-</div>
+Aplikasi mobile untuk mencatat dan memantau servis perangkat IT (laptop, printer, CCTV, dll) dari berbagai instansi. Data disimpan di perangkat, dan bisa disinkronkan ke Google Sheets supaya staf lain bisa mengaksesnya dari komputer.
 
----
+<p>
+  <img src="./assets/images/1.jpeg" width="180" />
+  <img src="./assets/images/2.jpeg" width="180" />
+  <img src="./assets/images/3.jpeg" width="180" />
+  <img src="./assets/images/4.jpeg" width="180" />
+  <img src="./assets/images/5.jpeg" width="180" />
+</p>
 
-## 📖 Tentang Aplikasi
-**Flashcom** adalah aplikasi *mobile* ringkas nan elegan untuk mengelola daftar perbaikan perangkat keras (seperti Laptop, Printer, CCTV, dll) milik antrian berbagai **Instansi/Pelanggan**. 
+## Fitur
 
-Aplikasi ini dapat dioperasikan secara **Luring (Offline First)** menggunakan penyimpanan perangkat, namun juga mendukung **Sinkronisasi Langsung ke Google Sheets** agar data dapat secara simultan dikelola oleh staf lain melalui komputer Desktop.
+- Catat perangkat yang masuk servis: jenis barang, tanggal masuk, ruangan, dan keterangan perbaikan.
+- Ringkasan jumlah servis berdasarkan status: masuk, selesai, tertunda.
+- Bisa dipakai tanpa internet. Data disimpan lokal dengan AsyncStorage.
+- Sinkronisasi dengan Google Sheets lewat Google Apps Script.
+- Ekspor rekap per instansi ke PDF atau Excel (.xlsx), lalu bagikan lewat WhatsApp, email, dll.
 
-<div align="center">
-  <img src="./assets/images/1.jpeg" width="220" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/2.jpeg" width="220" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/3.jpeg" width="220" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/4.jpeg" width="220" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./assets/images/5.jpeg" width="220" />
-  <br/>
-  *(Tangkapan Layar Aplikasi)*
-</div>
+## Teknologi
 
-## ✨ Fitur Utama
-1. **Pencatatan Cepat Lintas Instansi** - Mendata perangkat baru dalam hitungan detik (Tipe Barang, Tanggal Masuk, Ruangan, Keterangan).
-2. **Dashboard & Ringkasan Cerdas** - Antarmuka modern yang menampilkan hitungan *badges* servis: Masuk, Selesai, dan Tertunda.
-3. **Penyimpanan Lokal Persisten** - Tidak perlu koneksi internet untuk mengelola pencatatan harian berkat `AsyncStorage`.
-4. **Google Sheets API Sync (Otomatis & Real-Time)** - Sekali atur, aplikasi akan menyinkronkan data lokal ke *Google Drive* kamu atau menarik pembaruan tabel secara otomatis di latar belakang.
-5. **Ekspor Laporan (PDF & Excel)** - Ubah rekapitulasi data Instansi menjadi laporan `.pdf` yang rapi atau `.xlsx` (*Excel*) berformat tabel profesional, lalu bagikan lewat WhatsApp atau Email langsung dari ponsel.
+- React Native dengan Expo
+- TypeScript
+- Expo Router
+- `@react-native-async-storage/async-storage` untuk penyimpanan lokal
+- `expo-print` (PDF), `xlsx` (Excel), `expo-file-system`, `expo-sharing` untuk ekspor
 
-## 🛠️ Tech Stack
-- **Framework Utama:** [React Native](https://reactnative.dev/) (dengan ekosistem [Expo](https://expo.dev/))
-- **Bahasa:** TypeScript / JavaScript
-- **Penyimpanan Lokal:** `@react-native-async-storage/async-storage`
-- **Routing:** Expo Router (File-based routing)
-- **Ekspor Berkas:** `expo-print` (PDF), `xlsx` (Excel), `expo-file-system`, `expo-sharing`
-- **Tampilan CSS:** Stylesheet murni bergaya modern-minimalis.
-
-## 🚀 Cara Mulai (Development)
-
-Jika kamu ingin menjalankan kode sumber lokal ke komputermu:
-
-1. **Clone Repositori ini:**
-   ```bash
-   git clone https://github.com/Aldricc/ServisApp.git
-   cd ServisApp
-   ```
-
-2. **Pasang Dependensi (NPM):**
-   ```bash
-   npm install
-   ```
-
-3. **Nyalakan Server Expo:**
-   ```bash
-   npx expo start
-   ```
-   > Pindai kode QR yang muncul dengan aplikasi **Expo Go** (Bagi Android & iOS).
-
-## 📱 Build Production (APK Android)
-Aplikasi ini sudah dikonfigurasi menggunakan **EAS Build** (Expo Application Services).
-Kamu bisa mencetak keluaran file `.apk` secara gratis di komputermu dengan:
+## Menjalankan di lokal
 
 ```bash
-# Login akun Expo jika belum
-npx eas-cli login
+git clone https://github.com/Aldricc/ServisApp.git
+cd ServisApp
+npm install
+npx expo start
+```
 
-# Mulai pencetakan
+Scan kode QR yang muncul dengan Expo Go (Android/iOS).
+
+## Build APK
+
+Proyek ini memakai EAS Build.
+
+```bash
+npx eas-cli login
 eas build -p android --profile preview
 ```
-Tunggu sekitar 5–10 menit, URL tautan untuk mengunduh `.apk` akan siap.
 
-## ☁️ Setting Google Sheets API
-Aplikasi membaca parameter `keteranganPerbaikan` dkk untuk dikirimkan secara fetch POST/GET.
-1. Buat **Spreadsheet Baru** di Google Drive.
-2. Buka *Extensions* -> *Apps Script*.
-3. Salin kode konektor *doPost* & *doGet* ke dalam Editor, berikan otorisasi.
-4. Klik **Deploy as Web App** (Set Akses ke `Anyone`).
+Build biasanya selesai dalam 5-10 menit, lalu kamu akan mendapat link untuk mengunduh APK.
+
+## Setup Google Sheets
+
+1. Buat spreadsheet baru di Google Drive.
+2. Buka Extensions > Apps Script.
+3. Tempel script `doGet` dan `doPost` (lihat `docs/apps-script.js`), lalu beri otorisasi.
+4. Klik Deploy > Web app, set akses ke "Anyone".
 5. Salin URL Web App yang dihasilkan.
-6. Masukkan URL tersebut ke tab **Pengaturan** di Aplikasi Flashcom ini! Siap disinkronkan.
+6. Tempel URL itu di menu Pengaturan di aplikasi.
 
----
+## Lisensi
 
-## 📜 Lisensi
-Proyek ini dilisensikan di bawah **MIT License**. Jangan ragu untuk me- *fork* dan mengembangkan aplikasinya lebih lanjut!
-
----
-
-<div align="center">
-  Dibuat dengan ❤️ untuk mempermudah produktivitas Teknisi IT 🎧💻
-</div>
+MIT
