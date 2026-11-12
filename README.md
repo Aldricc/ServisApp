@@ -57,6 +57,3 @@ Build biasanya selesai dalam 5-10 menit, lalu kamu akan mendapat link untuk meng
 5. Salin URL Web App yang dihasilkan.
 6. Tempel URL itu di menu Pengaturan di aplikasi.
 
-## Lisensi
-
-MIT
